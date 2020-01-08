@@ -39,8 +39,7 @@ RitualsAccessory.prototype.getState = function(callback) {
       var json = JSON.parse(body);
       var state = json.hub.attributes.fanc; // "0" or "1" if is stopped or running
       this.log(" => response is %s", state);
-      var locked = state == "stopped"
-      callback(null, locked); // success
+      callback(null, state); // success
     }
     else {
       this.log("Error getting state (status code %s): %s", response.statusCode, err);
@@ -50,13 +49,13 @@ RitualsAccessory.prototype.getState = function(callback) {
 }
   
 RitualsAccessory.prototype.setState = function(state, callback) {
-  var genieState = (state == Characteristic.TargetState.STOP) ? "0" : "1";
+  var genieState = (state == "0") ? "1" : "0";
 
   this.log("Set Rituals state to %s", genieState);
   var str = '{"hub": "'+this.hash+'","json": {"attr": {"fanc" : "'+genieState+'"}}}';
   var jsonData = JSON.parse(str);
     
-  request.put({
+  request.post({
     url: "https://rituals.sense-company.com/api/hub/update/attr",
     qs: { body: jsonData }
   }, function(err, response, body) {
@@ -64,12 +63,11 @@ RitualsAccessory.prototype.setState = function(state, callback) {
     if (!err && response.statusCode == 200) {
       this.log("Rituals State change complete.");
       
-      // we succeeded, so update the "current" state as well
-      var currentState = (state == Characteristic.genieState.STOP) ?
-        Characteristic.genieState.STOP : Characteristic.genieState.RUN;
+      var json = JSON.parse(body);
+      var responseState = json.hub.attributes.fanc; // "0" or "1" if is stopped or running
       
       this.service
-        .setCharacteristic(Characteristic.CurrentState, currentState);
+        .setCharacteristic(Characteristic.CurrentState, responseState);
       
       callback(null); // success
     }
