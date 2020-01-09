@@ -19,5 +19,6 @@
   },
   "dependencies": {
     "request": "^2.88.0"
-  }
+  },
+  "homepage": "https://github.com/myluna08/homebridge-rituals#readme"
 }
