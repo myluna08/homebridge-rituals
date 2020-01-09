@@ -1,6 +1,8 @@
 # Homebridge-Rituals
 a cup of tea!
 
+<img src="https://img.shields.io/badge/stage-development-yellow"> <img src="https://img.shields.io/badge/completion-90%25-yellow"> <img src="https://img.shields.io/badge/license-MIT-green">
+
 <img src="https://user-images.githubusercontent.com/19808920/58770949-bd9c7900-857f-11e9-8558-5dfaffddffda.png" height="100">
 
 Homebridge Rituals is a homebridge-plugin to manage a Rituals Genie over homebridge infraestructure.
