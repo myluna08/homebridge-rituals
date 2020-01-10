@@ -1,7 +1,7 @@
 # Homebridge-Rituals
 a cup of tea!
 
-<img src="https://img.shields.io/badge/stage-development-yellow"> <img src="https://img.shields.io/badge/completion-90%25-yellow"> <img src="https://img.shields.io/badge/license-MIT-green"> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/badge/donate-paypal-green"></a>
+<img src="https://img.shields.io/badge/stage-development-yellow"> <img src="https://img.shields.io/badge/completion-90%25-yellow"> <img src="https://img.shields.io/badge/license-MIT-green"> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Buy%20me%20a%20coffe&message=using%20paypal&color=green"></a>
 
 <img src="https://user-images.githubusercontent.com/19808920/58770949-bd9c7900-857f-11e9-8558-5dfaffddffda.png" height="100"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoyOlRgCEZSyCrf2Ika_luW6N9ridvyC1Genb49xCQyLbc5eMG&s" height="90" align="right"> <img src="https://www.rituals.com/dw/image/v2/BBKL_PRD/on/demandware.static/-/Sites-rituals-products/default/dw7656c020/images/zoom/1106834_WirelessperfumeDiffuserPROAPrimary.png?sw=500&sh=500&sm=fit&q=100" height="100" align="right">
 
@@ -19,7 +19,8 @@ With this plugin you can do
 #### Before begin, (assumptions)
 * Your genie has been registered using Rituals App.
 * Your genie is working fine.
-* Your <a href="https://github.com/nfarina/homebridge">homebridge</a> is working fine and has been added to your home app as bridge.
+* Your <a href="https://github.com/nfarina/homebridge">homebridge</a> is working fine and has been added to your home app as bridge. If not, please take a look to <a href="#considerations">considerations section</a>.
+Find more about on <a href="https://www.rituals.com/es-es/faqs.html?catid=faq-perfume-genie&qid=fag-what-is-the-perfume-genie-and-what-can-it-do">Official Rituals Site</a>
 
 ## 01.Installation
 With npm -i or if you are using manual plugin module installation.
@@ -28,7 +29,7 @@ npm -i homebridge-rituals
 ```
 Otherwise you can use throught Homebridge UI-X the plugin search engine and just write : "homebridge-rituals or rituals" and click INSTALL
 
-#### Considerations
+#### <a name="considerations"></a>02. Considerations
 0. This plugin is under development, (**Unstable installation 0.0.x**) (stable installation 1.0.0 or greather..)
 1. **Node v4.3.2 or greater is required.** Check by running: `node --version`. The plugins you use may require newer versions.
 2. **On Linux only:** Install the libavahi-compat-libdnssd-dev package: `sudo apt-get install libavahi-compat-libdnssd-dev`
@@ -36,14 +37,14 @@ Otherwise you can use throught Homebridge UI-X the plugin search engine and just
 4. Install the plugins using: `npm install -g <plugin-name>`
 5. Create the `config.json` file.
 
-## 02.Configuration
+## 03.Configuration
 One installed, you must modify your config.json file and add the following data:
 1. Accessory = "Rituals"
 2. Account = "xxxx@xxx.com" < that is the mail you are using in Rituals App Registration.
 3. Password = "yyyyyyyy" < that is the password you are using in Rituals App
 SAVE your config.json file and RESTART homebridge.
 
-### Limitations
+## 04.Limitations
 * It will appears in you home app like a Fan Accessory.
 * You can control start/stop and fan speed.
 * You can't see other properties like in the app, maybe later.
@@ -55,4 +56,7 @@ SAVE your config.json file and RESTART homebridge.
 03. Allow to show the fragance quantity remains inside genie
 04. Allow to manage more than one genie if you can more than one in the same rituals account.
 
-Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/badge/donate-paypal-green"></a>
+Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Buy%20me%20a%20coffe&message=using%20paypal&color=green"></a>
+
+### Credits
+Rituals is a registered trademark of Rituals Cosmetics Enterprise B.V.
