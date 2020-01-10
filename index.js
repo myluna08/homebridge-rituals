@@ -17,7 +17,6 @@ var hub = null;
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  
   homebridge.registerAccessory('homebridge-rituals', 'Rituals', RitualsAccessory);
 }
 
@@ -52,54 +51,23 @@ function RitualsAccessory(log, config) {
  
   this.services.push(this.service);
   this.services.push(this.serviceInfo);
-  
   this.discover();
-}
-
-function reject(str){
-	this.log(str);
-}
-
-function resolve(json){
-	this.log(json);
-	var json = JSON.parse(body);
-	hash = json.account_hash;
 }
 
 RitualsAccessory.prototype = {
 	
 	discover: function () {
 		const that = this;
-		this.log('** Discover');
-
-		/*var form = { email: this.account, password: this.password };
-		var formData = qs.stringify(form);
-		var contentLength = formData.length;
-		
-		return new Promise((resolve, reject) =>{
-	        request.post({
-		        headers: {
-			      'Content-Length': contentLength,
-			      'Content-Type': 'application/x-www-form-urlencoded'
-			    },
-			  url:     'https://rituals.sense-company.com/ocapi/login',
-			  body: formData
-			}, function(error, response, body){
-				if (error) reject(error);
-				if (response.statusCode != 200) { reject('Invalid status code ' + response.statusCode); }
-				resolve(body);
-			});
-		});
-		*/
+		this.log('** discover do..');
 		
 		var form = new fm();
 		form.append('email',this.account);
 		form.append('password',this.password);
 		
-		return new Promise((resolve, reject) =>{
+		let pLogin = new Promise((resolve, reject) =>{
 	        request.post({
 		      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-			  url:     'https://rituals.sense-company.com/ocapi/login',
+			  url:   'https://rituals.sense-company.com/ocapi/login',
 			  body: form
 			}, function(error, response, body){
 				if (error) reject(error);
@@ -108,18 +76,27 @@ RitualsAccessory.prototype = {
 			});
 		});
 		
+	    pLogin.then(
+		function(response) {
+		    	this.log('** resolve promise => ' + response);
+			var json = JSON.parse(response);
+			hash = json.account_hash;
+	    }).catch(
+	       (reason) => {
+		    console.log('** rejected promise ('+reason+')');
+	    });
 	},
 	
 	setActiveState: function(active, callback){
-		this.log(hash);
+		this.log('** setActivateState - hash is => ' + hash);
 		this.log('parse value %s', active)
 		on_state = on_state == true ? false : true;
-		this.log('setting Active state to ' + on_state);
+		this.log('** setActivateState setting Active state to ' + on_state);
 		callback(undefined, on_state);
 	},
 	
 	setFanSpeed: function(value, callback){
-		this.log('setting Fan Rotator at %s', value);
+		this.log('** setFanSpeed setting Fan Rotator at %s', value);
 		fan_speed = 1;
 		callback(null, fan_speed);
 	},
@@ -130,8 +107,7 @@ RitualsAccessory.prototype = {
 
 	getServices: function () {
 		return this.services;
-	},
-	
+	}
 	
 };
 
