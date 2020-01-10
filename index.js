@@ -1,5 +1,7 @@
 'use strict';
 
+const qs = require('qs');
+const fm = require('form-data');
 const request = require('request');
 const version = require('./package.json').version;
 
@@ -9,6 +11,8 @@ let logger;
 
 var on_state = false;
 var fan_speed = 1;
+var hash = null;
+var hub = null;
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -23,8 +27,6 @@ function RitualsAccessory(log, config) {
   this.name = config.name || 'Genie';
   this.account = config.account;
   this.password = config.password;
-  this.token = config.token;
-  this.hash = config.hash;
   
   this.service = new Service.Fan();
   this.service
@@ -54,14 +56,62 @@ function RitualsAccessory(log, config) {
   this.discover();
 }
 
+function reject(str){
+	this.log(str);
+}
+
+function resolve(json){
+	this.log(json);
+	var json = JSON.parse(body);
+	hash = json.account_hash;
+}
+
 RitualsAccessory.prototype = {
 	
 	discover: function () {
 		const that = this;
 		this.log('** Discover');
+
+		/*var form = { email: this.account, password: this.password };
+		var formData = qs.stringify(form);
+		var contentLength = formData.length;
+		
+		return new Promise((resolve, reject) =>{
+	        request.post({
+		        headers: {
+			      'Content-Length': contentLength,
+			      'Content-Type': 'application/x-www-form-urlencoded'
+			    },
+			  url:     'https://rituals.sense-company.com/ocapi/login',
+			  body: formData
+			}, function(error, response, body){
+				if (error) reject(error);
+				if (response.statusCode != 200) { reject('Invalid status code ' + response.statusCode); }
+				resolve(body);
+			});
+		});
+		*/
+		
+		var form = new fm();
+		form.append('email',this.account);
+		form.append('password',this.password);
+		
+		return new Promise((resolve, reject) =>{
+	        request.post({
+		      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			  url:     'https://rituals.sense-company.com/ocapi/login',
+			  body: form
+			}, function(error, response, body){
+				if (error) reject(error);
+				if (response.statusCode != 200) { reject('Invalid status code ' + response.statusCode); }
+				resolve(body);
+			});
+		});
+		
 	},
 	
 	setActiveState: function(active, callback){
+		this.log(hash);
 		this.log('parse value %s', active)
 		on_state = on_state == true ? false : true;
 		this.log('setting Active state to ' + on_state);
@@ -82,30 +132,60 @@ RitualsAccessory.prototype = {
 		return this.services;
 	},
 	
-	_doRequest: function (methodName, url, httpMethod, urlName, callback, successCallback) {
-        if (!url) {
-            this.log('Ignoring ' + methodName + '() request, [' + urlName + '] is not defined!');
-            callback(new Error('No [' + urlName + '] defined!'));
-            return;
-        }
-        request({
-            url: url,
-            body: '',
-            method: httpMethod,
-            rejectUnauthorized: false
-        },
-        function (error, response, body) {
-            if (error) {
-                this.log(methodName + '() failed: %s', error.message);
-                callback(error);
-            }
-            else if (response.statusCode !== 200) {
-                this.log(methodName + '() returned http error: %s', response.statusCode);
-                callback(new Error('Got http error code ' + response.statusCode));
-            }
-            else {
-                successCallback(body);
-            }
-        }.bind(this));
-    }
+	
 };
+
+
+/*RitualsAccessory.prototype.getState = function(callback) {
+  this.log("Rituals getting current state...");
+  
+  request.get({
+    url: "https://rituals.sense-company.com/api/account/hubs/"+this.token,
+  }, function(err, response, body) {
+    
+    if (!err && response.statusCode == 200) {
+      var json = JSON.parse(body);
+      var state = json.hub.attributes.fanc; // "0" or "1" if is stopped or running
+      this.log(" => response is %s", state);
+      callback(null, state); // success
+    }
+    else {
+      this.log("Error getting state (status code %s): %s", response.statusCode, err);
+      callback(err);
+    }
+  }.bind(this));
+}
+  
+RitualsAccessory.prototype.setState = function(state, callback) {
+  var genieState = (state == "0") ? "1" : "0";
+
+  this.log("Set Rituals state to %s", genieState);
+  var str = '{"hub": "'+this.hash+'","json": {"attr": {"fanc" : "'+genieState+'"}}}';
+  var jsonData = JSON.parse(str);
+    
+  request.post({
+    url: "https://rituals.sense-company.com/api/hub/update/attr",
+    qs: { body: jsonData }
+  }, function(err, response, body) {
+
+    if (!err && response.statusCode == 200) {
+      this.log("Rituals State change complete.");
+      
+      var json = JSON.parse(body);
+      var responseState = json.hub.attributes.fanc; // "0" or "1" if is stopped or running
+      
+      this.service
+        .setCharacteristic(Characteristic.CurrentState, responseState);
+      
+      callback(null); // success
+    }
+    else {
+      this.log("Error '%s' Genie setting state. Response: %s", err, body);
+      callback(err || new Error("Error setting genie state."));
+    }
+  }.bind(this));
+}
+
+RitualsAccessory.prototype.getServices = function() {
+  return [this.service];
+}*/
