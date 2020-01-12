@@ -1,6 +1,6 @@
 {
   "name": "homebridge-rituals",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Rituals plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "ISC",
   "keywords": [
