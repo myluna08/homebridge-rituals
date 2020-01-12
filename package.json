@@ -1,6 +1,6 @@
 {
   "name": "homebridge-rituals",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rituals plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "ISC",
   "keywords": [
@@ -18,7 +18,9 @@
     "homebridge": ">=0.2.0"
   },
   "dependencies": {
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "request-json":"^6.13.4",
+    "node-storage":"^0.0.9"
   },
   "homepage": "https://github.com/myluna08/homebridge-rituals#readme"
 }
