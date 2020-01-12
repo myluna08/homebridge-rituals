@@ -3,13 +3,15 @@
 const store = require('node-storage');
 const reqson = require('request-json');
 const version = require('./package.json').version;
+
 const _where = require('./package.json')._where;
+const _loc = require('./package.json')._location;
 
 let Service;
 let Characteristic;
 let logger;
 
-var storage = new store(_where+'/node_modules/homebridge-rituals/secrets');
+var storage = new store(_where+_loc+'/secrets');
 
 var on_state = storage.get('on_state') || false;
 var fan_speed = storage.get('fan_speed') || 1;
