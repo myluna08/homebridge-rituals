@@ -73,3 +73,12 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 
 ## 06.Credits && Trademarks
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
+
+## 07.Lista de Cambios
+1.0.6 corregidos errores en secure store, en algunos casos en el log de homebridge aparecen fallos de permisos.
+1.0.5 demasiados logins para obtener el hash, implementando secure store.
+1.0.4 primera release funcional
+1.0.3 corregidos errores en peticiones, json mal fomateado
+1.0.2 corregidos errores on_state, active_state
+1.0.1 esquema funcionado, pero no hace nada
+1.0.0 accesorio registrado correctamente
