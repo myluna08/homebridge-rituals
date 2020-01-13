@@ -71,3 +71,12 @@ Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypa
 
 ## 06.Credits && Trademarks
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
+
+## 07.ChangeLog
+1.0.6 fix error with secure store, in some cases appears in homebridge logs permission errors.
+1.0.5 too many logins to get hash, implementing secure store.
+1.0.4 first release functional
+1.0.3 fix errors on request, json bad fomatted
+1.0.2 fix errors on_state, active_state
+1.0.1 scheme works but nothing do
+1.0.0 accessory registered successfully
