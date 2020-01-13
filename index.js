@@ -3,6 +3,7 @@
 const store = require('node-storage');
 const reqson = require('request-json');
 const version = require('./package.json').version;
+const user = require('../homebridge/lib/user').User;
 
 const _where = require('./package.json')._where;
 const _loc = require('./package.json')._location;
@@ -11,7 +12,7 @@ let Service;
 let Characteristic;
 let logger;
 
-var storage = new store(_where+_loc+'/secrets');
+var storage = new store(user.storagePath() + '/.rituals-secrets');
 
 var on_state = storage.get('on_state') || false;
 var fan_speed = storage.get('fan_speed') || 1;
@@ -66,8 +67,9 @@ RitualsAccessory.prototype = {
 	discover: function () {
 		const that = this;
 		this.log('discovering..');
-		this.log('npm version: ' + this.version );
-		
+		this.log('npm version: ' + version );
+		this.log('storage: ' + user.storagePath());
+
 		hash = storage.get('hash');
 		if (hash){
 			this.log('hash in storage');
@@ -87,7 +89,7 @@ RitualsAccessory.prototype = {
 				logger('login invalid status code ' + res.statusCode); 
 			}else{ 
 				logger('login ' + res.statusCode + ' OK!');
-				
+				logger(body);				
 				hash = body.account_hash;
 				storage.put('hash',hash);
 			};
