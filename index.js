@@ -1,10 +1,12 @@
 'use strict';
 
+const os = require('os');
+const path = require('path');
 const store = require('node-storage');
 const reqson = require('request-json');
 const version = require('./package.json').version;
-const user = require('../homebridge/lib/user').User;
 
+//const user = require('../homebridge/lib/user').User;
 const _where = require('./package.json')._where;
 const _loc = require('./package.json')._location;
 
@@ -12,7 +14,9 @@ let Service;
 let Characteristic;
 let logger;
 
-var storage = new store(user.storagePath() + '/.rituals-secrets');
+//var storage = new store(user.storagePath() + '/.rituals-secrets');
+var storage = new store( path.join(os.homedir(), ".homebridge") + '/.rituals-secrets');
+var user = path.join(os.homedir(), ".homebridge") + '/.rituals-secrets';
 
 var on_state = storage.get('on_state') || false;
 var fan_speed = storage.get('fan_speed') || 1;
@@ -88,7 +92,7 @@ RitualsAccessory.prototype = {
 		const that = this;
 		this.log('discovering..');
 		this.log('npm version: ' + version );
-		this.log('storage: ' + user.storagePath());
+		this.log('storage: ' + user);
 
 		hash = storage.get('hash');
 		if (hash){
