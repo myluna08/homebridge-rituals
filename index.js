@@ -31,14 +31,14 @@ function RitualsAccessory(log, config) {
   
   this.log = log;
   this.services = [];
-  this.name = 'Genie';
+  this.name = config.name || 'Genie';
   this.account = config.account;
   this.password = config.password;
   
-  this.service = new Service.Fan();
+  this.service = new Service.Fan(this.name,'AirFresher');
   this.service
   	.getCharacteristic(Characteristic.On)
-  	.on('get', callback => callback(null, on_state))
+  	.on('get', this.getCurrentState.bind(this))
   	.on('set', this.setActiveState.bind(this));
   	
   this.service
@@ -52,13 +52,33 @@ function RitualsAccessory(log, config) {
 
   this.serviceInfo = new Service.AccessoryInformation();
   this.serviceInfo
-  	.setCharacteristic(Characteristic.Manufacturer, 'Rituals')
-  	.setCharacteristic(Characteristic.Model, 'Genie')
+  	.setCharacteristic(Characteristic.Manufacturer, 'Victor Montes')
+  	.setCharacteristic(Characteristic.Model, 'Rituals Genie')
   	.setCharacteristic(Characteristic.SerialNumber, hublot)
   	.setCharacteristic(Characteristic.FirmwareRevision, version)
+
+  this.serviceBatt = new Service.BatteryService('Battery','AirFresher');
+  this.serviceBatt
+	.setCharacteristic(Characteristic.BatteryLevel, '100')
+	.setCharacteristic(Characteristic.ChargingState, Characteristic.ChargingState.CHARGING)
+	.setCharacteristic(Characteristic.StatusLowBattery, Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL)
+    .setCharacteristic(Characteristic.Name, 'Genie Battery');
+    
+  this.serviceFilter = new Service.FilterMaintenance('Filter','AirFresher');
+  this.serviceFilter
+  	.setCharacteristic(Characteristic.FilterChangeIndication, Characteristic.FilterChangeIndication.FILTER_OK)
+  	.setCharacteristic(Characteristic.Name, 'Oriental Vetiver');
  
+//ChargingState.NOT_CHARGING (0)
+//ChargingState.CHARGING (1)
+//ChargingState.NOT_CHARGAEABLE (2)
+//StatusLowBattery.BATTERY_LEVEL_NORMAL (0)
+//StatusLowBattery.BATTERY_LEVEL_LOW (1)
+
   this.services.push(this.service);
   this.services.push(this.serviceInfo);
+  this.services.push(this.serviceBatt);
+  this.services.push(this.serviceFilter);
   this.discover();
 }
 
@@ -107,7 +127,7 @@ RitualsAccessory.prototype = {
 				
 				hub = body[0].hub.hash;
 				hublot = body[0].hub.hublot;
-				on_state = body[0].hub.attributes.fanc;
+				on_state = body[0].hub.attributes.fanc == '0' ? false : true;
 				fan_speed = body[0].hub.attributes.sppedc;
 				
 				storage.put('hublot',hublot);
@@ -118,10 +138,35 @@ RitualsAccessory.prototype = {
 		});
 	},
 	
+	getCurrentState: function(callback){
+		this.log('getCurrentState of genie');
+		var client = reqson.createClient('https://rituals.sense-company.com/');
+		client.get('api/account/hubs/' + hash,function(err, res, body){
+			if (err) { logger('hubs ' + err) }
+			if (!err && res.statusCode != 200){
+				logger('hubs invalid status code ' + res.statusCode); 
+			}else{ 
+				logger('hubs ' + res.statusCode + ' OK!');
+				
+				hub = body[0].hub.hash;
+				hublot = body[0].hub.hublot;
+				on_state = body[0].hub.attributes.fanc == '0' ? false : true;
+				fan_speed = body[0].hub.attributes.sppedc;
+				
+				storage.put('hublot',hublot);
+				storage.put('hub',hub);
+				storage.put('on_state',on_state);
+				storage.put('fan_speed',fan_speed);
+				
+				logger('currentState of Genie => ' + on_state);
+				callback(null, on_state);
+			};
+		});
+	},
+	
 	setActiveState: function(active, callback){
 		this.log('setActivateState setting Active state to ' + active);
 		var setValue = active == true ? '1' : '0';
-		var onValue = active == true ? true : false;
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		var data = { hub: hub, json: { attr: { fanc: setValue } } };
 
@@ -132,17 +177,29 @@ RitualsAccessory.prototype = {
 				callback(undefined, on_state);
 			}else{ 
 				logger('attr ' + res.statusCode + ' OK!');
-				storage.put('on_state',onValue);
-				on_state = onValue
-				callback(undefined, onValue);
+				storage.put('on_state',active);
+				on_state = active
+				callback(undefined, active);
 			};
 		});
 	},
 	
 	setFanSpeed: function(value, callback){
 		this.log('** setFanSpeed setting Fan Rotator at %s', value);
-		fan_speed = 1;
-		callback(null, fan_speed);
+		var client = reqson.createClient('https://rituals.sense-company.com/');
+		var data = { hub: hub, json: { attr: { speedc: value.toString() } } };
+		client.post('api/hub/update/attr', data, function(err, res, body) {
+			if (err) { logger('attr ' + err); callback(undefined, fan_speed); }
+			if (!err && res.statusCode != 200){
+				logger('attr invalid status code ' + res.statusCode); 
+				callback(undefined, fan_speed);
+			}else{ 
+				logger('attr ' + res.statusCode + ' OK!');
+				storage.put('fan_speed',value.toString());
+				fan_speed = value;
+				callback(undefined, value);
+			};
+		});
 	},
 		
 	identify: function (callback) {
