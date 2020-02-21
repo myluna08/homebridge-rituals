@@ -44,7 +44,7 @@ One installed, you must modify your config.json file and add the following data:
 3. password (Required) = "yyyyyyyy" < that is the password you are using in Rituals App.
 4. name (Optional) = "my Genie" < a name that you can assign, if not, "Genie" name has been assigned.
 SAVE your config.json file and RESTART homebridge.
-
+```
     "accessories": [
         {
             "accessory": "Rituals",
@@ -53,7 +53,7 @@ SAVE your config.json file and RESTART homebridge.
             "password": "yyyyyyy"
         }
     ],
-
+```
 ## 04.Limitations
 * It will appears in you home app like a Fan Accessory.
 * You can control start/stop.
@@ -62,10 +62,11 @@ SAVE your config.json file and RESTART homebridge.
 * The most important limitation, with this very first version you can only manage only 1 genie under the rituals account.
 
 ## 05.Following Features Implementation (Nice to have in the future)
-01. Allow to show battery level information
-02. Allow to show the fragance name
-03. Allow to show the fragance quantity remains inside genie
-04. Allow to manage more than one genie if you can more than one in the same rituals account.
+- [x] Allow to control FAN rotator speed, Done!
+- [x] Allow to show battery level information, Done!
+- [ ] Allow to show the fragance name
+- [ ] Allow to show the fragance quantity remains inside genie
+- [ ] Allow to manage more than one genie if you can more than one in the same rituals account.
 
 Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Buy%20me%20a%20coffe&message=using%20paypal&color=green"></a>
 
