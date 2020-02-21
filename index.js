@@ -49,7 +49,7 @@ function RitualsAccessory(log, config) {
   	.getCharacteristic(Characteristic.RotationSpeed)
   	.setProps({
         minValue: 1,
-        maxValue: 4
+        maxValue: 3
       })
   	.on('get', callback => callback(null, fan_speed))
   	.on('set', this.setFanSpeed.bind(this));
