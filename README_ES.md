@@ -46,7 +46,7 @@ Una vez instlado, debes modificar el fichero config.json y añadir el accesorio:
 3. password (Required) = "yyyyyyyy" < la password cuenta de la App Rituals que usaste en el Registro.
 4. name (Optional) = "my Genie" < el nombre que le quieres dar, si no, "Genie" sera asignado como nombre por defecto.
 GUARDA tu config.json y REINICIA homebridge.
-
+```
     "accessories": [
         {
             "accessory": "Rituals",
@@ -55,19 +55,20 @@ GUARDA tu config.json y REINICIA homebridge.
             "password": "yyyyyyy"
         }
     ],
-
+```
 ## 04.Limitaciones
 * Aparece en tu app de CASA como un Ventidador.
 * Puedes controlar solo start/stop.
-* La velocidad del ventilador no esta disponible en esta release (mira controldecambios).
+* La velocidad del ventilador no esta disponible en esta release (mira controldecambios). Ya esta listo!
 * No se visualizan otras propiedades aún, tal vez mas adelante.
 * La limitación más importante, esta versión solo puede gestionar 1 genie. Si tienes varios en la misma cuenta aun no se podrá.
 
 ## 05.Implementaciones Futuras (o que nos gustaria tener en el futuro no muy lejano..)
-01. Añadir la información de la bateria.
-02. Añadir el nombre de la fragancia.
-03. Añadir la cantidad de fragancia que queda.
-04. Añadir gestionar mas de 1 genie en la misma cuenta
+- [x] Añadir la control de velocidad del ventilador. Ya esta listo!
+- [x] Añadir la información de la bateria. Ya esta listo!
+- [ ] Añadir el nombre de la fragancia.
+- [ ] Añadir la cantidad de fragancia que queda.
+- [ ] Añadir gestionar mas de 1 genie en la misma cuenta.
 
 Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Invitame%20a%20un%20cafe&message=usa%20paypal&color=green"></a>
 
@@ -75,10 +76,12 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
-1.0.6 corregidos errores en secure store, en algunos casos en el log de homebridge aparecen fallos de permisos.
-1.0.5 demasiados logins para obtener el hash, implementando secure store.
-1.0.4 primera release funcional
-1.0.3 corregidos errores en peticiones, json mal fomateado
-1.0.2 corregidos errores on_state, active_state
-1.0.1 esquema funcionado, pero no hace nada
-1.0.0 accesorio registrado correctamente
+* 1.0.8 corregido un error usando funciones expuestas por homebridge y añadida nueva caracteristica usando la velocidad del ventilador.
+* 1.0.7 versión inestable!
+* 1.0.6 corregidos errores en secure store, en algunos casos en el log de homebridge aparecen fallos de permisos.
+* 1.0.5 demasiados logins para obtener el hash, implementando secure store.
+* 1.0.4 primera release funcional
+* 1.0.3 corregidos errores en peticiones, json mal fomateado
+* 1.0.2 corregidos errores on_state, active_state
+* 1.0.1 esquema funcionado, pero no hace nada
+* 1.0.0 accesorio registrado correctamente
