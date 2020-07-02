@@ -182,11 +182,7 @@ RitualsAccessory.prototype = {
               }
             });
             if (!found){
-              if (config.hub){
-                logger('HUB in Config NOT validated!');
-              }else{
-                logger('HUB NOT in Config, please declare a correct section in config.json');
-              }
+              logger('HUB in Config NOT validated! or NOT in Config, please declare a correct section in config.json');
               logger('---');
               logger('There are multiple Genies found on your account');
               logger('The HUB Key to identify Genie in your config.json is invalid, select the proper HUB key.')
