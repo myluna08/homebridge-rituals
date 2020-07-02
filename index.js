@@ -6,7 +6,7 @@ const store = require('node-storage');
 const reqson = require('request-json');
 
 const version = require('./package.json').version;
-const author = require('./package.json').author;
+const author = require('./package.json').author.name;
 const _where = require('./package.json')._where;
 const _loc = require('./package.json')._location;
 
