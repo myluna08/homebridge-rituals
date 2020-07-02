@@ -10,7 +10,7 @@ Homebridge es un servidor ligero de NodeJS que emula la API de iOS de HomeKit.
 
 Desde que Siri soporta el control de dispositivos mediante HomeKit, con Homebridge puedes pedirle a Siri que gestione dispositivos que realmente no son 100% compatibles con HomeKit. Para ello se usan plguins y se le puede pedir algo como:
 
- * _Siri, enciene el Genie._ 
+ * _Siri, enciene el Genie._
  * _Siri, apaga el Genie._
 
 
@@ -40,7 +40,9 @@ Si usas interfaz UI de homebridge, usa el buscador y escribe : "homebridge-ritua
 5. Creaa el fichero de configuración `config.json`.
 
 ## 03.Configuración en config.json
-Una vez instlado, debes modificar el fichero config.json y añadir el accesorio:
+
+PARA 1 SOLO GENIE
+Una vez instalado, debes modificar el fichero config.json y añadir el accesorio:
 1. accessory (Required) = "Rituals"
 2. account (Required) = "xxxx@xxx.com" < la cuenta de la App Rituals que usaste en el Registro.
 3. password (Required) = "yyyyyyyy" < la password cuenta de la App Rituals que usaste en el Registro.
@@ -56,6 +58,60 @@ GUARDA tu config.json y REINICIA homebridge.
         }
     ],
 ```
+
+PARA MULTIPLES GENIES
+Si tienes mas de 1 genie en la cuenta, usa la configuración anterior, el accesorio devolvera en el LOG los identificadores de los genies que tengas en la cuenta, una vez devueltos añade la clave "hub" y el valor del identificador genie que desees controlar.
+
+1. Declara modo standard
+```
+    "accessories": [
+        {
+            "accessory": "Rituals",
+            "name": "Genie",
+            "account": "xxx@xxx.com",
+            "password": "yyyyyyy"
+        }
+    ],
+```
+2. Espera devolución en el LOG como esta
+```
+[7/1/2020, 1:24:44 PM] [Genie] Hub NOT validated!
+[7/1/2020, 1:24:44 PM] [Genie] There are multiple hubs found on your account
+[7/1/2020, 1:24:44 PM] [Genie] Key in your config.json is invalid, select the proper hub key.
+[7/1/2020, 1:24:44 PM] [Genie] Put one in your config.json > https://github.com/myluna08/homebridge-rituals
+[7/1/2020, 1:24:44 PM] [Genie] ---
+[7/1/2020, 1:24:44 PM] [Genie] Name: FirstGenie
+[7/1/2020, 1:24:44 PM] [Genie] Hublot: LOTXXX-XX-XXXXX-XXXXX
+[7/1/2020, 1:24:44 PM] [Genie] Hub: f0123456789f0123456789f0123456789f0123456789f0123456789f01234567
+[7/1/2020, 1:24:44 PM] [Genie] Key: 0
+
+[7/1/2020, 1:24:44 PM] [Genie] ---
+[7/1/2020, 1:24:44 PM] [Genie] Name: SecondGenie
+[7/1/2020, 1:24:44 PM] [Genie] Hublot: LOTXXX-XX-XXXXX-XXXXX
+[7/1/2020, 1:24:44 PM] [Genie] Hub: a0123456789a0123456789a0123456789a0123456789a0123456789a01234567
+[7/1/2020, 1:24:44 PM] [Genie] Key: 1
+```
+3. declara 2 accesorios con sus correspondientes identificadores hub
+```
+"accessories": [
+    {
+        "accessory": "Rituals",
+        "name": "Genie 01",
+        "account": "xxx@xxx.com",
+        "password": "yyyyyyy",
+        "hub": "f0123456789f0123456789f0123456789f0123456789f0123456789f01234567"
+    },
+    {
+        "accessory": "Rituals",
+        "name": "Genie 02",
+        "account": "xxx@xxx.com",
+        "password": "yyyyyyy",
+        "hub": "a0123456789a0123456789a0123456789a0123456789a0123456789a01234567"
+    }
+],
+```
+4. Reinicia Homebridge
+
 ## 04.Limitaciones
 * Aparece en tu app de CASA como un Ventidador.
 * Puedes controlar solo start/stop.
@@ -66,9 +122,11 @@ GUARDA tu config.json y REINICIA homebridge.
 ## 05.Implementaciones Futuras (o que nos gustaria tener en el futuro no muy lejano..)
 - [x] Añadir la control de velocidad del ventilador. Ya esta listo!
 - [x] Añadir la información de la bateria. Ya esta listo!
-- [ ] Añadir el nombre de la fragancia.
+- [x] Deteccion de la versión 1.0 de Genie o 2.0 de Genie
+- [x] Trazas en modo Debug
+- [x] Añadir el nombre de la fragancia.
 - [ ] Añadir la cantidad de fragancia que queda.
-- [ ] Añadir gestionar mas de 1 genie en la misma cuenta.
+- [x] Añadir gestionar mas de 1 genie en la misma cuenta.
 
 Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Invitame%20a%20un%20cafe&message=usa%20paypal&color=green"></a>
 
@@ -76,6 +134,7 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
+* 1.1.0 trazas en modo debug, mas de 1 genie en la misma cuenta e información de la versión 1.0 o 2.0, frangancia (solo homebridge)
 * 1.0.8 corregido un error usando funciones expuestas por homebridge y añadida nueva caracteristica usando la velocidad del ventilador.
 * 1.0.7 versión inestable!
 * 1.0.6 corregidos errores en secure store, en algunos casos en el log de homebridge aparecen fallos de permisos.

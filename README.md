@@ -12,7 +12,7 @@ Since Siri supports devices added through HomeKit, this means that with Homebrid
 
 With this plugin you can do
 
- * _Siri, turn on the Genie._ 
+ * _Siri, turn on the Genie._
  * _Siri, turn off the Genie._
 
 
@@ -38,6 +38,8 @@ Otherwise you can use throught Homebridge UI-X the plugin search engine and just
 5. Create the `config.json` file.
 
 ## 03.Configuration in config.json
+
+FOR 1 GENIE ONLY
 One installed, you must modify your config.json file and add the following data:
 1. accessory (Required) = "Rituals"
 2. account (Required) = "xxxx@xxx.com" < that is the mail you are using in Rituals App Registration.
@@ -54,6 +56,60 @@ SAVE your config.json file and RESTART homebridge.
         }
     ],
 ```
+
+MULTIPLE GENIES IN YOUR account
+If you have more than one genie in your account, use the standard config for the first time and see the LOG. The Genie identifiers should appear in the log. Then add the "hub" key in the config to indicate what genie you want to control.
+
+1. Declare standard mode
+```
+    "accessories": [
+        {
+            "accessory": "Rituals",
+            "name": "Genie",
+            "account": "xxx@xxx.com",
+            "password": "yyyyyyy"
+        }
+    ],
+```
+2. Wait for the LOG , like this..
+```
+[7/1/2020, 1:24:44 PM] [Genie] Hub NOT validated!
+[7/1/2020, 1:24:44 PM] [Genie] There are multiple hubs found on your account
+[7/1/2020, 1:24:44 PM] [Genie] Key in your config.json is invalid, select the proper hub key.
+[7/1/2020, 1:24:44 PM] [Genie] Put one in your config.json > https://github.com/myluna08/homebridge-rituals
+[7/1/2020, 1:24:44 PM] [Genie] ---
+[7/1/2020, 1:24:44 PM] [Genie] Name: FirstGenie
+[7/1/2020, 1:24:44 PM] [Genie] Hublot: LOTXXX-XX-XXXXX-XXXXX
+[7/1/2020, 1:24:44 PM] [Genie] Hub: f0123456789f0123456789f0123456789f0123456789f0123456789f01234567
+[7/1/2020, 1:24:44 PM] [Genie] Key: 0
+
+[7/1/2020, 1:24:44 PM] [Genie] ---
+[7/1/2020, 1:24:44 PM] [Genie] Name: SecondGenie
+[7/1/2020, 1:24:44 PM] [Genie] Hublot: LOTXXX-XX-XXXXX-XXXXX
+[7/1/2020, 1:24:44 PM] [Genie] Hub: a0123456789a0123456789a0123456789a0123456789a0123456789a01234567
+[7/1/2020, 1:24:44 PM] [Genie] Key: 1
+```
+3. declare every accesory with the correspondent hub identifier
+```
+"accessories": [
+    {
+        "accessory": "Rituals",
+        "name": "Genie 01",
+        "account": "xxx@xxx.com",
+        "password": "yyyyyyy",
+        "hub": "f0123456789f0123456789f0123456789f0123456789f0123456789f01234567"
+    },
+    {
+        "accessory": "Rituals",
+        "name": "Genie 02",
+        "account": "xxx@xxx.com",
+        "password": "yyyyyyy",
+        "hub": "a0123456789a0123456789a0123456789a0123456789a0123456789a01234567"
+    }
+],
+```
+4. Restart Homebridge
+
 ## 04.Limitations
 * It will appears in you home app like a Fan Accessory.
 * You can control start/stop.
@@ -64,9 +120,11 @@ SAVE your config.json file and RESTART homebridge.
 ## 05.Following Features Implementation (Nice to have in the future)
 - [x] Allow to control FAN rotator speed, Done!
 - [x] Allow to show battery level information, Done!
+- [x] Detection of Genie version 1.0 or 2.0
+- [x] Added Debug traces
 - [ ] Allow to show the fragance name
 - [ ] Allow to show the fragance quantity remains inside genie
-- [ ] Allow to manage more than one genie if you can more than one in the same rituals account.
+- [x] Allow to manage more than one genie if you can more than one in the same rituals account.
 
 Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Buy%20me%20a%20coffe&message=using%20paypal&color=green"></a>
 
@@ -74,6 +132,7 @@ Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypa
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07.ChangeLog
+* 1.1.0 adding debug traces, support more than 1 genie in your account and current version of genie 1.0 or 2.0, fragance only in (homebridge)
 * 1.0.8 fix error using functions exposed by homebridge and adding new characteristic to use FAN rotator speed.
 * 1.0.7 wrong, unstable version!
 * 1.0.6 fix error with secure store, in some cases appears in homebridge logs permission errors.

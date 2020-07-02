@@ -1,6 +1,6 @@
 {
   "name": "homebridge-rituals",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Rituals plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "ISC",
   "keywords": [
@@ -13,6 +13,7 @@
   "bugs": {
     "url": "http://github.com/myluna08/homebridge-rituals/issues"
   },
+  "author": "Victor Montes",
   "engines": {
     "node": ">=0.12.0",
     "homebridge": ">=0.2.0"
