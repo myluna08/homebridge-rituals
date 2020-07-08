@@ -120,10 +120,10 @@ If you have more than one genie in your account, use the standard config for the
 ## 05.Following Features Implementation (Nice to have in the future)
 - [x] Allow to control FAN rotator speed, Done!
 - [x] Allow to show battery level information, Done!
-- [x] Detection of Genie version 1.0 or 2.0
+- [x] Detection of Genie version 1.0 or 2.0 (Genie 2.0 does not have battery, accessory battery not shown)
 - [x] Added Debug traces
-- [ ] Allow to show the fragance name
-- [ ] Allow to show the fragance quantity remains inside genie
+- [X] Allow to show the fragance name
+- [ ] Allow to show the fragance quantity remains inside genie ¿?
 - [x] Allow to manage more than one genie if you can more than one in the same rituals account.
 
 Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Buy%20me%20a%20coffe&message=using%20paypal&color=green"></a>
@@ -132,6 +132,7 @@ Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypa
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07.ChangeLog
+* 1.1.5 fix over log functions & fragance added. 
 * 1.1.4 force change UUID to avoid same
 * 1.1.3 fix a defect with key with 1 genie only.
 * 1.1.2 fix a defect with package.json in some cases.

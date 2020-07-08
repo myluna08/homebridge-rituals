@@ -122,10 +122,10 @@ Si tienes mas de 1 genie en la cuenta, usa la configuración anterior, el acceso
 ## 05.Implementaciones Futuras (o que nos gustaria tener en el futuro no muy lejano..)
 - [x] Añadir la control de velocidad del ventilador. Ya esta listo!
 - [x] Añadir la información de la bateria. Ya esta listo!
-- [x] Deteccion de la versión 1.0 de Genie o 2.0 de Genie
+- [x] Deteccion de la versión 1.0 de Genie o 2.0 de Genie, Genie 2.0 no tiene batería y no se muestran datos relativos a bateria.
 - [x] Trazas en modo Debug
 - [x] Añadir el nombre de la fragancia.
-- [ ] Añadir la cantidad de fragancia que queda.
+- [ ] Añadir la cantidad de fragancia que queda ¿?
 - [x] Añadir gestionar mas de 1 genie en la misma cuenta.
 
 Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4YXRZVGSVNAEE&item_name=Just+for+a+coffe&currency_code=EUR&source=url"><img src="https://img.shields.io/static/v1?label=Invitame%20a%20un%20cafe&message=usa%20paypal&color=green"></a>
@@ -134,6 +134,7 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
+* 1.1.5 corrección sobre el sistema de log & añadida la fragancia
 * 1.1.4 forzado de cambio para UUID
 * 1.1.3 corregido defecto con la clave con 1 solo genie.
 * 1.1.2 corregido defecto con package.json en algunos casos.

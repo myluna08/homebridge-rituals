@@ -49,6 +49,9 @@ function RitualsAccessory(log, config) {
   this.version = this.storage.get('version') || version;
     this.log.debug('RitualsAccesory -> version :: ' + this.version);
 
+  this.fragance = this.storage.get('fragance') || 'N/A';
+    this.log.debug('RitualsAccesory -> fragance :: ' + this.fragance);
+
   var determinate_model = this.version.split('.');
   if (determinate_model[determinate_model.length-1] < 12){
     this.model_version = '1.0';
@@ -90,7 +93,7 @@ function RitualsAccessory(log, config) {
   this.serviceFilter = new Service.FilterMaintenance('Filter','AirFresher');
   this.serviceFilter
   	.setCharacteristic(Characteristic.FilterChangeIndication, Characteristic.FilterChangeIndication.FILTER_OK)
-  	.setCharacteristic(Characteristic.Name, 'Oriental Vetiver');
+  	.setCharacteristic(Characteristic.Name, this.fragance);
 
 //ChargingState.NOT_CHARGING (0)
 //ChargingState.CHARGING (1)
@@ -131,7 +134,7 @@ RitualsAccessory.prototype = {
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		var data = { email: this.account, password: this.password };
 		client.post('ocapi/login', data, function(err, res, body) {
-			if (err) { logger('login ' + err) }
+			if (err) { that.log.info(that.name + ' :: ERROR :: ocapi/login :: getHash() > ' + err) }
 			if (!err && res.statusCode != 200){
         that.log.debug('RitualsAccesory -> ajax :: ocapi/login -> INVALID STATUS CODE :: ' + res.statusCode);
 			}else{
@@ -150,7 +153,7 @@ RitualsAccessory.prototype = {
     this.log.debug('RitualsAccesory -> init :: getHub: function()');
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		client.get('api/account/hubs/' + that.storage.get('hash'),function(err, res, body){
-			if (err) { logger('hubs ' + err) }
+			if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: getHub() > ' + err) }
 			if (!err && res.statusCode != 200){
         that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ -> INVALID STATUS CODE :: ' + res.statusCode);
 			}else{
@@ -163,6 +166,7 @@ RitualsAccessory.prototype = {
           that.storage.put('key',that.key);
           that.storage.put('name',body[that.key].hub.attributes.roomnamec);
           that.storage.put('hublot',body[that.key].hub.hublot);
+          that.storage.put('fragance',body[that.key].hub.sensors.rfidc.title);
         }else{
             var found = false;
             Object.keys(body).forEach(function(key) {
@@ -175,25 +179,31 @@ RitualsAccessory.prototype = {
                 that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Name :: ' + body[key].hub.attributes.roomnamec);
                 that.hublot = body[key].hub.hublot;
                 that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Hublot :: ' + body[key].hub.hublot);
+                that.fragance = body[that.key].hub.sensors.rfidc.title;
+                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: SENSORS Fragance :: ' + body[that.key].hub.sensors.rfidc.title);
                 that.storage.put('key',key);
                 that.storage.put('name',body[key].hub.attributes.roomnamec);
                 that.storage.put('hublot',body[key].hub.hublot);
+                that.storage.put('fragance',body[that.key].hub.sensors.rfidc.title);
                 that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: Saved HUB preferences in Storage');
               }
             });
             if (!found){
-              logger('HUB in Config NOT validated! or NOT in Config, please declare a correct section in config.json');
-              logger('---');
-              logger('There are multiple Genies found on your account');
-              logger('The HUB Key to identify Genie in your config.json is invalid, select the proper HUB key.')
-              logger('Put one of the following your config.json > https://github.com/myluna08/homebridge-rituals');
+              that.log.info("************************************************");
+              that.log.info('HUB in Config NOT validated! or NOT in Config');
+              that.log.info('please declare a correct section in config.json');
+              that.log.info("************************************************");
+              that.log.info('There are multiple Genies found on your account');
+              that.log.info('The HUB Key to identify Genie in your config.json is invalid, select the proper HUB key.')
+              that.log.info('Put one of the following your config.json > https://github.com/myluna08/homebridge-rituals');
               Object.keys(body).forEach(function(key) {
-                logger('---');
-                logger('Name: ' + body[key].hub.attributes.roomnamec);
-                logger('Hublot: ' + body[key].hub.hublot);
-                logger('Hub: ' + body[key].hub.hash);
-                logger('Key: ' + key);
+                that.log.info('********************');
+                that.log.info('Name   : ' + body[key].hub.attributes.roomnamec);
+                that.log.info('Hublot : ' + body[key].hub.hublot);
+                that.log.info('Hub    : ' + body[key].hub.hash);
+                that.log.info('Key    : ' + key);
               });
+              that.log.info("************************************************");
             }
           }
         }
@@ -206,10 +216,10 @@ RitualsAccessory.prototype = {
 		this.log.debug('RitualsAccesory -> init :: getCurrentState: function(callback)');
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		client.get('api/account/hubs/' + that.storage.get('hash'),function(err, res, body){
-			if (err) { logger('getCurrentState ' + err) }
+			if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: getCurrentState() > ' + err) }
 			if (!err && res.statusCode != 200){
 				that.log.debug('RitualsAccesory -> ajax :: getCurrentState :: api/account/hubs/ -> INVALID STATUS CODE :: ' + res.statusCode);
-        logger(that.name + ' getCurrentState => ' + res.statusCode + ' :: ' + err);
+        that.log.info(that.name + ' getCurrentState => ' + res.statusCode + ' :: ' + err);
 			}else{
 				that.log.debug('RitualsAccesory -> ajax :: getCurrentState :: api/account/hubs/ OK :: ' + res.statusCode);
         that.key = that.storage.get('key');
@@ -226,15 +236,15 @@ RitualsAccessory.prototype = {
     const that = this;
     this.log.debug('RitualsAccesory -> init :: setActiveState: function(active, callback)');
     this.log.debug('RitualsAccesory ->  setActiveState to ' + active);
-    logger(that.name + ': Set ActiveState to => ' + active);
+    this.log.info(that.name + ' :: Set ActiveState to => ' + active);
 		var setValue = active == true ? '1' : '0';
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		var data = { hub: that.hub, json: { attr: { fanc: setValue } } };
 		client.post('api/hub/update/attr', data, function(err, res, body) {
-			if (err) { logger('setActiveState ' + err); callback(undefined, on_state); }
+			if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setActiveState() > ' + err); callback(undefined, on_state); }
 			if (!err && res.statusCode != 200){
         that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ -> INVALID STATUS CODE :: ' + res.statusCode);
-        logger(that.name + ': setActiveState => ' + res.statusCode + ' :: ' + err);
+        that.log.info(that.name + ' :: setActiveState => ' + res.statusCode + ' :: ' + err);
 				callback(undefined, that.on_state);
 			}else{
         that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ OK :: ' + res.statusCode);
@@ -248,14 +258,14 @@ RitualsAccessory.prototype = {
 	setFanSpeed: function(value, callback){
     const that = this;
     this.log.debug('RitualsAccesory -> init :: setFanSpeed: function(value, callback)');
-    logger(that.name + ': Set FanSpeed to => ' + value);
+    this.log.info(that.name + ' :: Set FanSpeed to => ' + value);
 		var client = reqson.createClient('https://rituals.sense-company.com/');
 		var data = { hub: that.hub, json: { attr: { speedc: value.toString() } } };
 		client.post('api/hub/update/attr', data, function(err, res, body) {
-			if (err) { logger('setFanSpeed ' + err); callback(undefined, fan_speed); }
+			if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setFanSpeed() > ' + err); callback(undefined, fan_speed); }
 			if (!err && res.statusCode != 200){
 				that.log.debug('RitualsAccesory -> ajax :: setFanSpeed :: api/hub/update/attr/ -> INVALID STATUS CODE :: ' + res.statusCode);
-        logger(that.name + ': setFanSpeed => ' + res.statusCode + ' :: ' + err);
+        that.log.info(that.name + ' :: setFanSpeed => ' + res.statusCode + ' :: ' + err);
 				callback(undefined, that.fan_speed);
 			}else{
 				that.log.debug('RitualsAccesory -> ajax :: setFanSpeed :: api/hub/update/attr/ OK :: ' + res.statusCode);
