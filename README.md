@@ -132,6 +132,7 @@ Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypa
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07.ChangeLog
+* 1.1.4 force change UUID to avoid same
 * 1.1.3 fix a defect with key with 1 genie only.
 * 1.1.2 fix a defect with package.json in some cases.
 * 1.1.1 Error ReferenceError: config is not defined solved.

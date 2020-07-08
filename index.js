@@ -40,10 +40,10 @@ function RitualsAccessory(log, config) {
   this.key = this.storage.get('key') || 0;
     this.log.debug('RitualsAccesory -> key :: ' + this.key);
 
-  this.name = this.storage.get('name') || config.name || 'Genie';
+  this.name =  this.storage.get('name') || config.name || 'Genie';
     this.log.debug('RitualsAccesory -> name :: ' + this.name);
 
-  this.hublot = this.storage.get('hublot') || 'SN000000001';
+  this.hublot = this.storage.get('hublot') || 'SN000000001' + this.name;
     this.log.debug('RitualsAccesory -> name :: ' + this.hublot);
 
   this.version = this.storage.get('version') || version;
