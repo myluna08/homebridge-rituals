@@ -134,6 +134,7 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
+* 1.1.3 corregido defecto con la clave con 1 solo genie.
 * 1.1.2 corregido defecto con package.json en algunos casos.
 * 1.1.1 error ReferenceError: config is not defined solucionado.
 * 1.1.0 trazas en modo debug, mas de 1 genie en la misma cuenta e información de la versión 1.0 o 2.0, frangancia (solo homebridge)

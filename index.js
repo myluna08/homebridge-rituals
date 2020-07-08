@@ -159,10 +159,10 @@ RitualsAccessory.prototype = {
         if (body.length == 1){
           that.key = 0;
           that.name = body[that.key].hub.attributes.roomnamec;
-          that.hublot = body[key].hub.hublot;
-          that.storage.put('key',key);
-          that.storage.put('name',body[key].hub.attributes.roomnamec);
-          that.storage.put('hublot',body[key].hub.hublot);
+          that.hublot = body[that.key].hub.hublot;
+          that.storage.put('key',that.key);
+          that.storage.put('name',body[that.key].hub.attributes.roomnamec);
+          that.storage.put('hublot',body[that.key].hub.hublot);
         }else{
             var found = false;
             Object.keys(body).forEach(function(key) {
