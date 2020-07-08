@@ -21,10 +21,11 @@ module.exports = function(homebridge) {
 }
 
 function RitualsAccessory(log, config) {
-  logger = log;
+  //logger = log;
   this.log = log;
   this.services = [];
   this.hub = config.hub || '';
+  var dt = Math.floor(Math.random() * 10000) + 1;
 
     this.log.debug('RitualsAccesory -> init :: RitualsAccessory(log, config)');
 
@@ -43,8 +44,8 @@ function RitualsAccessory(log, config) {
   this.name =  this.storage.get('name') || config.name || 'Genie';
     this.log.debug('RitualsAccesory -> name :: ' + this.name);
 
-  this.hublot = this.storage.get('hublot') || 'SN000000001' + this.name;
-    this.log.debug('RitualsAccesory -> name :: ' + this.hublot);
+  this.hublot = this.storage.get('hublot') || 'SN_RND' + dt;
+    this.log.debug('RitualsAccesory -> hublot :: ' + this.hublot);
 
   this.version = this.storage.get('version') || version;
     this.log.debug('RitualsAccesory -> version :: ' + this.version);

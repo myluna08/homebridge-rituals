@@ -134,6 +134,7 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
+* 1.1.6 correción UUID para persistencia.
 * 1.1.5 corrección sobre el sistema de log & añadida la fragancia
 * 1.1.4 forzado de cambio para UUID
 * 1.1.3 corregido defecto con la clave con 1 solo genie.
