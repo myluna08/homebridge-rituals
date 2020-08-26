@@ -170,6 +170,7 @@ RitualsAccessory.prototype = {
                     that.storage.put('hublot', body[that.key].hub.hublot);
                     that.storage.put('hub', body[that.key].hub.hash);
                     that.storage.put('fragance', body[that.key].hub.sensors.rfidc.title);
+                    that.log.debug('RitualsAccesory -> hub 1 genie updated');
                 } else {
                     var found = false;
                     Object.keys(body).forEach(function(key) {
@@ -244,8 +245,10 @@ RitualsAccessory.prototype = {
         var client = reqson.createClient('https://rituals.sense-company.com/');
         var data = { hub: that.hub, json: { attr: {  fanc: setValue } } };
         client.post('api/hub/update/attr', data, function(err, res, body) {
-            if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setActiveState() > ' + err);
-                callback(undefined, on_state); }
+            if (err) {
+                that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setActiveState() > ' + err);
+                callback(undefined, on_state);
+            }
             if (!err && res.statusCode != 200) {
                 that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ -> INVALID STATUS CODE :: ' + res.statusCode);
                 that.log.info(that.name + ' :: setActiveState => ' + res.statusCode + ' :: ' + err);
@@ -266,8 +269,10 @@ RitualsAccessory.prototype = {
         var client = reqson.createClient('https://rituals.sense-company.com/');
         var data = { hub: that.hub, json: { attr: {  speedc: value.toString() } } };
         client.post('api/hub/update/attr', data, function(err, res, body) {
-            if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setFanSpeed() > ' + err);
-                callback(undefined, fan_speed); }
+            if (err) {
+                that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setFanSpeed() > ' + err);
+                callback(undefined, fan_speed);
+            }
             if (!err && res.statusCode != 200) {
                 that.log.debug('RitualsAccesory -> ajax :: setFanSpeed :: api/hub/update/attr/ -> INVALID STATUS CODE :: ' + res.statusCode);
                 that.log.info(that.name + ' :: setFanSpeed => ' + res.statusCode + ' :: ' + err);
