@@ -164,7 +164,7 @@ RitualsAccessory.prototype = {
                     that.key = 0;
                     that.name = body[that.key].hub.attributes.roomnamec;
                     that.hublot = body[that.key].hub.hublot;
-                    that.hub = body[key].hub.hash;
+                    that.hub = body[that.key].hub.hash;
                     that.storage.put('key', that.key);
                     that.storage.put('name', body[that.key].hub.attributes.roomnamec);
                     that.storage.put('hublot', body[that.key].hub.hublot);
