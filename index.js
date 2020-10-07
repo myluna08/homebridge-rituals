@@ -119,10 +119,16 @@ RitualsAccessory.prototype = {
         this.log.debug('RitualsAccesory -> package :: ' + version);
         this.storage.put('hub', this.hub);
         var hash = this.storage.get('hash') || null;
+        var hb = this.storage.get('hub') || null;
         if (hash) {
             this.log.debug('RitualsAccesory -> hash found in local storage');
             this.log.debug('RitualsAccesory -> HASH :: ' + hash);
-            this.getHub();
+            if (hb){
+	        	this.log.debug('RitualsAccesory -> hub found in local storage');
+				this.log.debug('RitualsAccesory -> HUB :: ' + hb);
+            }else{
+            	this.getHub();
+            } 
         } else {
             this.getHash();
         }
@@ -154,63 +160,67 @@ RitualsAccessory.prototype = {
         this.log.debug('RitualsAccesory -> init :: getHub: function()');
         var client = reqson.createClient('https://rituals.sense-company.com/');
         client.get('api/account/hubs/' + that.storage.get('hash'), function(err, res, body) {
-            if (err) { that.log.info(that.name + ' :: ERROR :: api/account/hubs :: getHub() > ' + err) }
-            if (!err && res.statusCode != 200) {
-                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ -> INVALID STATUS CODE :: ' + res.statusCode);
-            } else {
-                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ OK :: ' + res.statusCode);
-                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ BODY.LENGTH :: ' + body.length + ' Genie in your account');
-                if (body.length == 1) {
-                    that.key = 0;
-                    that.name = body[that.key].hub.attributes.roomnamec;
-                    that.hublot = body[that.key].hub.hublot;
-                    that.hub = body[that.key].hub.hash;
-                    that.storage.put('key', that.key);
-                    that.storage.put('name', body[that.key].hub.attributes.roomnamec);
-                    that.storage.put('hublot', body[that.key].hub.hublot);
-                    that.storage.put('hub', body[that.key].hub.hash);
-                    that.storage.put('fragance', body[that.key].hub.sensors.rfidc.title);
-                    that.log.debug('RitualsAccesory -> hub 1 genie updated');
-                } else {
-                    var found = false;
-                    Object.keys(body).forEach(function(key) {
-                        if (body[key].hub.hash == that.hub) {
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB declared in config VALIDATED OK ');
-                            found = true;
-                            that.key = key;
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Key is :: ' + key);
-                            that.name = body[key].hub.attributes.roomnamec;
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Name :: ' + body[key].hub.attributes.roomnamec);
-                            that.hublot = body[key].hub.hublot;
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Hublot :: ' + body[key].hub.hublot);
-                            that.fragance = body[that.key].hub.sensors.rfidc.title;
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: SENSORS Fragance :: ' + body[that.key].hub.sensors.rfidc.title);
-                            that.storage.put('key', key);
-                            that.storage.put('name', body[key].hub.attributes.roomnamec);
-                            that.storage.put('hublot', body[key].hub.hublot);
-                            that.storage.put('fragance', body[that.key].hub.sensors.rfidc.title);
-                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: Saved HUB preferences in Storage');
-                        }
-                    });
-                    if (!found) {
-                        that.log.info("************************************************");
-                        that.log.info('HUB in Config NOT validated! or NOT in Config');
-                        that.log.info('please declare a correct section in config.json');
-                        that.log.info("************************************************");
-                        that.log.info('There are multiple Genies found on your account');
-                        that.log.info('The HUB Key to identify Genie in your config.json is invalid, select the proper HUB key.')
-                        that.log.info('Put one of the following your config.json > https://github.com/myluna08/homebridge-rituals');
-                        Object.keys(body).forEach(function(key) {
-                            that.log.info('********************');
-                            that.log.info('Name   : ' + body[key].hub.attributes.roomnamec);
-                            that.log.info('Hublot : ' + body[key].hub.hublot);
-                            that.log.info('Hub    : ' + body[key].hub.hash);
-                            that.log.info('Key    : ' + key);
-                        });
-                        that.log.info("************************************************");
-                    }
-                }
-            }
+            if (err) { 
+	            that.log.info(that.name + ' :: ERROR :: api/account/hubs :: getHub() > ' + err);
+	            that.log.info('That means GENIE servers are down!');  
+	        }else{
+	            if (!err && res.statusCode != 200) {
+	                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ -> INVALID STATUS CODE :: ' + res.statusCode);
+	            } else {
+	                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ OK :: ' + res.statusCode);
+	                that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ BODY.LENGTH :: ' + body.length + ' Genie in your account');
+	                if (body.length == 1) {
+	                    that.key = 0;
+	                    that.name = body[that.key].hub.attributes.roomnamec;
+	                    that.hublot = body[that.key].hub.hublot;
+	                    that.hub = body[that.key].hub.hash;
+	                    that.storage.put('key', that.key);
+	                    that.storage.put('name', body[that.key].hub.attributes.roomnamec);
+	                    that.storage.put('hublot', body[that.key].hub.hublot);
+	                    that.storage.put('hub', body[that.key].hub.hash);
+	                    that.storage.put('fragance', body[that.key].hub.sensors.rfidc.title);
+	                    that.log.debug('RitualsAccesory -> hub 1 genie updated');
+	                } else {
+	                    var found = false;
+	                    Object.keys(body).forEach(function(key) {
+	                        if (body[key].hub.hash == that.hub) {
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB declared in config VALIDATED OK ');
+	                            found = true;
+	                            that.key = key;
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Key is :: ' + key);
+	                            that.name = body[key].hub.attributes.roomnamec;
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Name :: ' + body[key].hub.attributes.roomnamec);
+	                            that.hublot = body[key].hub.hublot;
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: HUB Hublot :: ' + body[key].hub.hublot);
+	                            that.fragance = body[that.key].hub.sensors.rfidc.title;
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: SENSORS Fragance :: ' + body[that.key].hub.sensors.rfidc.title);
+	                            that.storage.put('key', key);
+	                            that.storage.put('name', body[key].hub.attributes.roomnamec);
+	                            that.storage.put('hublot', body[key].hub.hublot);
+	                            that.storage.put('fragance', body[that.key].hub.sensors.rfidc.title);
+	                            that.log.debug('RitualsAccesory -> ajax :: api/account/hubs/ :: Saved HUB preferences in Storage');
+	                        }
+	                    });
+	                    if (!found) {
+	                        that.log.info("************************************************");
+	                        that.log.info('HUB in Config NOT validated! or NOT in Config');
+	                        that.log.info('please declare a correct section in config.json');
+	                        that.log.info("************************************************");
+	                        that.log.info('There are multiple Genies found on your account');
+	                        that.log.info('The HUB Key to identify Genie in your config.json is invalid, select the proper HUB key.')
+	                        that.log.info('Put one of the following your config.json > https://github.com/myluna08/homebridge-rituals');
+	                        Object.keys(body).forEach(function(key) {
+	                            that.log.info('********************');
+	                            that.log.info('Name   : ' + body[key].hub.attributes.roomnamec);
+	                            that.log.info('Hublot : ' + body[key].hub.hublot);
+	                            that.log.info('Hub    : ' + body[key].hub.hash);
+	                            that.log.info('Key    : ' + key);
+	                        });
+	                        that.log.info("************************************************");
+	                    }
+	                }
+	            }
+	        }
         });
         this.log.debug('RitualsAccesory -> finish :: getHub: function()');
     },

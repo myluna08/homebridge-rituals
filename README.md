@@ -132,6 +132,7 @@ Yeah, many work .. but you can helpme with a coffe .. <a href="https://www.paypa
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07.ChangeLog
+* 1.1.9 Added control if Rituals Servers are down.
 * 1.1.8 fix mistake
 * 1.1.7 fix HUB in only one genie
 * 1.1.6 fix UUID for persistance.
