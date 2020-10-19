@@ -150,7 +150,7 @@ RitualsAccessory.prototype = {
                 that.storage.put('hash', body.account_hash);
                 that.log.debug('RitualsAccesory -> ajax :: ocapi/login :: Setting hash in storage :: ' + body.account_hash);
                 that.getHub();
-            };
+            }
         });
         this.log.debug('RitualsAccesory -> finish :: getHash: function()');
     },
@@ -241,7 +241,7 @@ RitualsAccessory.prototype = {
                 that.fan_speed = body[that.key].hub.attributes.sppedc;
                 that.storage.put('version', body[that.key].hub.sensors.versionc);
                 callback(null, that.on_state);
-            };
+            }
         });
         this.log.debug('RitualsAccesory -> finish :: getCurrentState: function(callback)');
     },
@@ -267,7 +267,7 @@ RitualsAccessory.prototype = {
                 that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ OK :: ' + res.statusCode);
                 that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ BODY :: ' + body);
                 callback(undefined, active);
-            };
+            }
         });
         this.log.debug('RitualsAccesory -> finish :: setActiveState: function(active, callback)');
     },
@@ -291,7 +291,7 @@ RitualsAccessory.prototype = {
                 that.log.debug('RitualsAccesory -> ajax :: setFanSpeed :: api/hub/update/attr/ OK :: ' + res.statusCode);
                 that.log.debug('RitualsAccesory -> ajax :: setFanSpeed :: api/hub/update/attr/ BODY :: ' + body);
                 callback(undefined, value);
-            };
+            }
         });
         this.log.debug('RitualsAccesory -> finish :: setFanSpeed: function(value, callback)');
     },
