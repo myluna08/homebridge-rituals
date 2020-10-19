@@ -257,7 +257,7 @@ RitualsAccessory.prototype = {
         client.post('api/hub/update/attr', data, function(err, res, body) {
             if (err) {
                 that.log.info(that.name + ' :: ERROR :: api/account/hubs :: setActiveState() > ' + err);
-                callback(undefined, on_state);
+                callback(undefined, that.on_state);
             }
             if (!err && res.statusCode != 200) {
                 that.log.debug('RitualsAccesory -> ajax :: setActiveState :: api/hub/update/attr/ -> INVALID STATUS CODE :: ' + res.statusCode);
