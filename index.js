@@ -7,12 +7,9 @@ const reqson = require('request-json');
 
 const version = require('./package.json').version;
 const author = require('./package.json').author.name;
-const _where = require('./package.json')._where;
-const _loc = require('./package.json')._location;
 
 let Service;
 let Characteristic;
-let logger;
 
 module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
@@ -134,7 +131,6 @@ function RitualsAccessory(log, config) {
 
 RitualsAccessory.prototype = {
   discover: function () {
-    const that = this;
     this.log.debug('RitualsAccesory -> init :: discover: function ()');
     this.log.debug('RitualsAccesory -> package :: ' + version);
     this.storage.put('hub', this.hub);
@@ -403,7 +399,7 @@ RitualsAccessory.prototype = {
         that.log.info(
           that.name + ' :: ERROR :: api/account/hubs :: setFanSpeed() > ' + err
         );
-        callback(undefined, fan_speed);
+        callback(undefined, that.fan_speed);
       }
       if (!err && res.statusCode != 200) {
         that.log.debug(
