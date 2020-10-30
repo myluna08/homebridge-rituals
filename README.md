@@ -151,6 +151,7 @@ Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07. ChangeLog
 
+- 1.1.11 Added control for 503 unresponsive rituals server
 - 1.1.10 Add linting and fix up reference errors
 - 1.1.9 Added control if Rituals Servers are down.
 - 1.1.8 fix mistake
