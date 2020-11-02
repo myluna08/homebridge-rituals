@@ -314,6 +314,7 @@ RitualsAccessory.prototype = {
                     ' :: ERROR :: api/account/hubs :: getCurrentState() > ' +
                     err
                 );
+                that.log.info('That means GENIE servers are down!');
             }
             if (!err && res.statusCode != 200) {
                 that.log.debug(
@@ -333,8 +334,8 @@ RitualsAccessory.prototype = {
                     body[that.key].hub.attributes.fanc == '0' ? false : true;
                 that.fan_speed = body[that.key].hub.attributes.sppedc;
                 that.storage.put('version', body[that.key].hub.sensors.versionc);
-                callback(null, that.on_state);
             }
+            callback(null, that.on_state);
         });
         this.log.debug(
             'RitualsAccesory -> finish :: getCurrentState: function(callback)'
