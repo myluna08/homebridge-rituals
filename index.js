@@ -356,7 +356,7 @@ RitualsAccessory.prototype = {
             if (err) {
                 that.log.info(
                     that.name +
-                    ' :: ERROR ' + res.statusCode + ' :: api/account/hubs :: setActiveState() > ' +
+                    ' :: ERROR :: api/account/hubs :: setActiveState() > ' +
                     err
                 );
                 callback(undefined, that.on_state);
