@@ -150,6 +150,7 @@ Yeah, many work .. but you can helpme with a coffee .. <a href="https://www.payp
 Rituals & Genie are registered trademarks of Rituals Cosmetics Enterprise B.V.
 
 ## 07. ChangeLog
+- 1.1.14 Fix error when homekit starts
 - 1.1.13 Fix error with StatusCodes
 - 1.1.12 Added control for rituals servers down on currentState
 - 1.1.11 Added control for 503 unresponsive rituals server

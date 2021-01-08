@@ -303,7 +303,7 @@ RitualsAccessory.prototype = {
             'RitualsAccesory -> init :: getCurrentState: function(callback)'
         );
         var client = reqson.createClient('https://rituals.sense-company.com/');
-        client.get('api/account/hubs/' + that.storage.get('hash'), function(
+        client.get('api/account/hub/' + that.storage.get('hub'), function(
             err,
             res,
             body
@@ -331,9 +331,9 @@ RitualsAccessory.prototype = {
                 );
                 that.key = that.storage.get('key');
                 that.on_state =
-                    body[that.key].hub.attributes.fanc == '0' ? false : true;
-                that.fan_speed = body[that.key].hub.attributes.sppedc;
-                that.storage.put('version', body[that.key].hub.sensors.versionc);
+                    body.hub.attributes.fanc == '0' ? false : true;
+                that.fan_speed = body.hub.attributes.speedc;
+                that.storage.put('version', body.hub.sensors.versionc);
             }
             callback(null, that.on_state);
         });

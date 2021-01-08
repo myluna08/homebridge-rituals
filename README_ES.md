@@ -134,6 +134,7 @@ Ya, mucho curre .. Si te gusta el trabajo invitame a un cafe <a href="https://ww
 Rituals & Genie son marcas registradas de Rituals Cosmetics Enterprise B.V.
 
 ## 07.Lista de Cambios
+* 1.1.14 Corregido estado del genie al iniciar homekit.
 * 1.1.13 Corregido un error de codigos de estado
 * 1.1.12 Añadido control para excepcion de servidores rituals al actualizar el estado.
 * 1.1.11 Añadido control para excepciones 503 servidor rituals sin respuesta.
