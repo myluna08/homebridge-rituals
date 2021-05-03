@@ -57,6 +57,9 @@ function RitualsAccessory(log, config) {
     this.version = this.storage.get('version') || version;
     this.log.debug('RitualsAccesory -> version :: ' + this.version);
 
+    this.fragance = this.storage.get('fragance') || 'N/A';
+    this.log.debug('RitualsAccesory -> fragance :: ' + this.fragance);
+
     if (!(this.model_version == '1.0' || this.model_version == '2.0')) {
         var determinate_model = this.version.split('.');
         if (determinate_model[determinate_model.length - 1] < 12) {
