@@ -43,6 +43,7 @@ function RitualsAccessory(log, config) {
     this.fan_speed;
     this.account = config.account;
     this.password = config.password;
+    this.model_version = config.model_version;
 
     this.key = this.storage.get('key') || 0;
     this.log.debug('RitualsAccesory -> key :: ' + this.key);
@@ -59,12 +60,16 @@ function RitualsAccessory(log, config) {
     this.fragance = this.storage.get('fragance') || 'N/A';
     this.log.debug('RitualsAccesory -> fragance :: ' + this.fragance);
 
-    var determinate_model = this.version.split('.');
-    if (determinate_model[determinate_model.length - 1] < 12) {
-        this.model_version = '1.0';
-    } else {
-        this.model_version = '2.0';
+    if (!(this.model_version == '1.0' || this.model_version == '2.0')) {
+        var determinate_model = this.version.split('.');
+        if (determinate_model[determinate_model.length - 1] < 12) {
+            this.model_version = '1.0';
+        } else {
+            this.model_version = '2.0';
+        }
     }
+    this.log.debug('RitualsAccesory -> model_version :: ' + this.model_version);
+
 
     this.service = new Service.Fan(this.name, 'AirFresher');
     this.service

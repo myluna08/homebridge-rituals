@@ -52,6 +52,7 @@ One installed, you must modify your config.json file and add the following data:
 2. account (Required) = "xxxx@xxx.com" < that is the mail you are using in Rituals App Registration.
 3. password (Required) = "yyyyyyyy" < that is the password you are using in Rituals App.
 4. name (Optional) = "my Genie" < a name that you can assign, if not, "Genie" name has been assigned.
+4. model_version (Optional) = "1.0" or "2.0" < The version of you'r Genie, if not, it is automatically determined.
 
 SAVE your config.json file and RESTART homebridge.
 
@@ -61,7 +62,8 @@ SAVE your config.json file and RESTART homebridge.
             "accessory": "Rituals",
             "name": "My Genie",
             "account": "xxx@xxx.com",
-            "password": "yyyyyyy"
+            "password": "yyyyyyy",
+            "model_version": "v.0"
         }
     ],
 ```
@@ -77,7 +79,8 @@ If you have more than one genie in your account, use the standard config for the
             "accessory": "Rituals",
             "name": "Genie",
             "account": "xxx@xxx.com",
-            "password": "yyyyyyy"
+            "password": "yyyyyyy",
+            "model_version": "v.0"
         }
     ],
 ```
